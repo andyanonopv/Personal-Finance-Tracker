@@ -1,0 +1,15 @@
+@media only screen and  (max-width: 1024px){
+    .grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+    }
+
+    .budgets-container {
+        grid-template-columns: 1fr;
+    }
+
+    .second-column {
+        grid-row-start: 1;
+    }
+
+}

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/media-queries.css">
+    <title>Personal Finance Tracker</title>
+</head>
+<body>
+    <!--Navbar-->
+    <nav class="navbar">
+        <div class="logo-brand">
+            <img class="logo" src="assets/img/logo.png" alt="">
+        </div>
+        <ul class="nav-items">
+            <li class="nav-item active">
+                <a href="#" class="nav-link "><i class="fa-solid fa-house"></i>Home</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link"><i class="fa-solid fa-wallet"></i>Balance</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link"><i class="fa-solid fa-arrow-trend-up"></i>Investments</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link"><i class="fa-solid fa-scale-unbalanced-flip"></i>Insurance</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link"><i class="fa-solid fa-suitcase"></i>Business</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link"><i class="fa-regular fa-star"></i>Entertainment</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!--Main Section-->
+    <section class="grid">
+        <section class="first-column">
+            <div class="search">
+                <input type="text" placeholder="Search">
+                <i class="fa-regular fa-bell"></i>
+            </div>
+            <div class="chart-container">
+                <div class="top-chart">
+                    <p>Money Status</p>
+                    <select id="timePeriodSelect" onchange="updateChartTimePeriod()">
+                        <option value="week">Week</option>
+                        <option value="month" selected>Month</option>
+                        <option value="year">Year</option>
+                    </select>
+                </div>
+                <canvas id="myChart" width="400" height="400"></canvas>
+            </div>
+            <p>Budgets</p>
+            <div class="budgets-container">
+                <div class="budgets-items">
+                    <div class="budget-item">
+                        <div class="flex-left">
+                            <canvas id="transportChart"></canvas>
+                            <div class="text-wrapper">
+                            <h3>Auto & Transport</h3>
+                            <p>$700 Left</p>
+                            </div>
+                        </div>
+                        <div class="money-wrapper">
+                            <h3>$1200</h3>
+                            <p>500 of 1200</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="budget-item">
+                        <div class="flex-left">
+                            <canvas id="foodChart"></canvas>
+                        <div class="text-wrapper">
+                            <h3>Food & Drinks</h3>
+                            <p>$2100 Left</p>
+                        </div>
+                        </div>
+                        <div class="money-wrapper">
+                            <h3>$3700</h3>
+                            <p>1600 of 3700</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="budget-item">
+                        <div class="flex-left">
+                            <canvas id="sportChart"></canvas>
+                            <div class="text-wrapper">
+                                <h3>Sport</h3>
+                                <p>$350 Left</p>
+                            </div>
+                        </div>
+                        
+                        <div class="money-wrapper">
+                            <h3>$950</h3>
+                            <p>600 of 950</p>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div class="cash-loan-container">
+                    <div class="img-wrapper">
+                        <img src="assets/img/business-man.jpg" alt="">
+                    </div>
+                    <div class="text-down-wrapper">
+                        <h2>Cash Loan</h2>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
+                            Deserunt modi nihil eius facilis?</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="second-column">
+            <div class="user-container">
+                <div class="user-wrapper">
+                    <img class="profile-picture" src="assets/img/profile-picture.webp" alt="">
+                    <div class="user-details">
+                        <h3>Edson Lee</h3>
+                        <p>email@email.com</p>
+                    </div>
+                </div>
+                <i class="fa-solid fa-right-from-bracket"></i>
+                
+            </div>
+            <hr>
+            <div class="cards-container">
+                <div class="card-item">
+                    <div class="cards-wrapper">
+                        <div class="circle"><p>$</p></div>
+                        <div class="card-details">
+                            <p>Heisenberg wallet</p>
+                            <h3>$ 15,423</h3>
+                        </div>
+                    </div>
+                    <div class="square">
+                        <img src="assets/img/Mastercard-logo.png" alt="">
+                        <p>0012</p>
+                    </div>
+                </div>
+                <div class="card-item">
+                    <div class="cards-wrapper">
+                        <div class="circle"><p>&euro;</p></div>
+                        <div class="card-details">
+                            <p>Great Wall wallet</p>
+                            <h3>&euro; 6,211</h3>
+                        </div>
+                    </div>
+                    <div class="square">
+                        <img src="assets/img/visa-logo-png-transparent.png" alt="">
+                        <p>3252</p>
+                    </div>
+                </div>
+                <div class="card-item">
+                    <div class="cards-wrapper">
+                        <div class="circle"><p>&euro;</p></div>
+                        <div class="card-details">
+                            <p>Stone River wallet</p>
+                            <h3>&euro; 4,328</h3>
+                        </div>
+                    </div>
+                    <div class="square">
+                        <img src="assets/img/visa-logo-png-transparent.png" alt="">
+                        <p>7145</p>
+                    </div>
+                </div>
+               
+            </div>
+            <hr>
+            <div class="add-card-container">
+                <button class="addCard"><i class="far fa-plus"></i> Add credit card</button>
+            </div>
+        </section>
+    </section>
+
+    <script src="https://kit.fontawesome.com/ce8d3f4e60.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
