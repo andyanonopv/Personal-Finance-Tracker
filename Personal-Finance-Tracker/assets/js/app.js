@@ -1,5 +1,85 @@
 $(document).ready(function() {
     const cardContainer = document.querySelector('.cards-container');
+    const budgetsContainer = document.querySelector('.budgets-container');
+
+    $('#addBudget').click(function() {
+        const overlay = $('<div class="overlay"></div>');
+
+        const formContainer = $('<div class="form-container"></div>');
+        formContainer.html(`
+            <form>
+                <label for="canvasId">Canvas id:</label>
+                <input type="text" id="canvasId" name="canvasId"><br><br>
+                <label for="titleBudget">Title:</label>
+                <input type="text" id="titleBudget" name="title"><br><br>
+                <label for="total">Money Total:</label>
+                <input type="number" id="total" name="total"><br><br>
+                <label for="spent">Money Spent:</label>
+                <input type="number" id="spent" name="spent"><br><br>
+                <button class="submitData" type="submit">Submit</button>
+            </form>
+        `);
+        overlay.append(formContainer);
+
+        // Append overlay to body
+        $('body').append(overlay);
+
+        overlay.click(function(event) {
+            if ($(event.target).closest('.form-container').length === 0) {
+                overlay.remove();
+                }
+        });
+        
+        $(document).on('submit', 'form', function(event) {
+            event.preventDefault();
+            const canvasId = $('#canvasId').val();
+            const titleBudget = $('#titleBudget').val();
+            const totalMoney = $('#total').val();
+            const spentMoney = $('#spent').val();
+
+            const createBudgetItem = $(`
+            <div class="budget-item">
+                    <div class="flex-left">
+                            <canvas id="${canvasId}"></canvas>
+                            <div class="text-wrapper">
+                            <h3>${titleBudget}</h3>
+                            <p>${totalMoney-spentMoney} Left</p>
+                            </div>
+                    </div>
+                        <div class="money-wrapper">
+                            <h3>${totalMoney}</h3>
+                            <p>${spentMoney} of ${totalMoney}</p>
+                    </div>
+            </div>
+        `);
+
+        
+        $('.budgets-items').append(createBudgetItem);
+        initializeChart(canvasId, [spentMoney, totalMoney - spentMoney]);
+        $('.overlay').remove();
+        });
+    });
+
+    function initializeChart(canvasId, data) {
+        // Delay chart initialization to ensure canvas is in the DOM
+        setTimeout(() => {
+            var canvas = document.getElementById(canvasId);
+            if (canvas) {
+                var ctx = canvas.getContext('2d');
+                var newChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        datasets: [{
+                            data: data,
+                            backgroundColor: ['#5673fb', '#d1d5f8'],
+                        }]
+                    },
+                });
+            } else {
+                console.error('Canvas element not found:', canvasId);
+            }
+        }, 0);
+    }
 
     $('.addCard').click(function() {
         const overlay = $('<div class="overlay"></div>');
@@ -31,8 +111,11 @@ $(document).ready(function() {
         overlay.click(function(event) {
             if ($(event.target).closest('.form-container').length === 0) {
                 overlay.remove();
-                }
+         
+         
+           }
         });
+    
         
         $(document).on('submit', 'form', function(event) {
             event.preventDefault(); // Prevent the default form submission
@@ -69,8 +152,12 @@ $(document).ready(function() {
 
             // Optionally, remove the overlay
             $('.overlay').remove();
+
+            
         });
     });
+
+    
 
     var cty = document.getElementById('transportChart').getContext('2d');
     var transportChart = new Chart(cty, {
