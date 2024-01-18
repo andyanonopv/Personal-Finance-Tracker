@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    $("#navbar-placeholder").load("navbar.html");
+    
     const cardContainer = document.querySelector('.cards-container');
     const budgetsContainer = document.querySelector('.budgets-container');
 
@@ -153,7 +155,6 @@ $(document).ready(function() {
             // Optionally, remove the overlay
             $('.overlay').remove();
 
-            
         });
     });
 
