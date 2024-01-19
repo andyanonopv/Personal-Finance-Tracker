@@ -12,51 +12,131 @@ $(document).ready(function() {
         });
     });
 
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-    type: 'bar', // The type of chart: bar, line, pie, etc.
-    data: {
-        labels: ['Su', 'Ma', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-        datasets: [{
-            label: 'Spendings',
-            data: [12000,5000,6000,20000], // Example data
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                // ... other colors for each bar
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                // ... other border colors for each bar
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    // Custom formatting for Y-axis labels
-                    callback: function(value, index, values) {
-                        return value / 1000 + 'k'; // Convert to 'k' for thousands
-                        }
-                    }
+    function initializeChart(canvasId, data) {
+        setTimeout(() => {
+            var canvas = document.getElementById(canvasId);
+            if (canvas) {
+                // Destroy existing chart if it exists
+                if (Chart.getChart(canvasId)) {
+                    Chart.getChart(canvasId).destroy();
                 }
+    
+                var ctx = canvas.getContext('2d');
+                var newChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        datasets: [{
+                            data: data,
+                            backgroundColor: randomColor(),
+                        }]
+                    },
+                });
+            } else {
+                console.error('Canvas element not found:', canvasId);
             }
-        },
-        plugins: {
-            title: {
-                display: true,
-                text: 'Money Status',
-                position: 'top',
-                align: 'start' // Aligns the title to the left
+        }, 0);
+    }
+
+    function randomColor() {
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+    
+        const color = `rgb(${r}, ${g}, ${b})`;
+        const lighterColor = `rgb(${Math.floor(r + (255 - r) * 0.5)}, ${Math.floor(g + (255 - g) * 0.5)}, ${Math.floor(b + (255 - b) * 0.5)})`;
+    
+        return [color, lighterColor];
+    }
+    
+    function createSummaryChart() {
+        const budgetItems = JSON.parse(localStorage.getItem('budgetItems')) || [];
+        const spentData = budgetItems.map(item => item.spentMoney);
+        const remainingData = budgetItems.map(item => item.totalMoney - item.spentMoney);
+    
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar', // Example: bar chart
+            data: {
+                labels: budgetItems.map(item => item.titleBudget), // Budget categories as labels
+                datasets: [{
+                    label: 'Spent',
+                    data: spentData,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }, {
+                    label: 'Remaining',
+                    data: remainingData,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Overall Budget Summary',
+                        position: 'top'
+                    }
+                },
             }
-        },
-    });
+        });
+    }
+    
+    
+
+    // var ctx = document.getElementById('myChart').getContext('2d');
+    // var myChart = new Chart(ctx, {
+    // type: 'bar', // The type of chart: bar, line, pie, etc.
+    // data: {
+    //     labels: ['Su', 'Ma', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+    //     datasets: [{
+    //         label: 'Spendings',
+    //         data: [12000,5000,6000,20000], // Example data
+    //         backgroundColor: [
+    //             'rgba(255, 99, 132, 0.2)',
+    //             // ... other colors for each bar
+    //         ],
+    //         borderColor: [
+    //             'rgba(255, 99, 132, 1)',
+    //             // ... other border colors for each bar
+    //         ],
+    //         borderWidth: 1
+    //     }]
+    // },
+    // options: {
+    //     scales: {
+    //         y: {
+    //             beginAtZero: true,
+    //             ticks: {
+    //                 // Custom formatting for Y-axis labels
+    //                 callback: function(value, index, values) {
+    //                     return value / 1000 + 'k'; // Convert to 'k' for thousands
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     },
+    //     plugins: {
+    //         title: {
+    //             display: true,
+    //             text: 'Money Status',
+    //             position: 'top',
+    //             align: 'start' // Aligns the title to the left
+    //         }
+    //     },
+    // });
 
 
     function loadBudgetItems() {
         const budgetItems = JSON.parse(localStorage.getItem('budgetItems')) || [];
+        console.log(budgetItems);
         budgetItems.forEach(item => {
             const createBudgetItem = $(`
                 <div class="budget-item">
@@ -78,7 +158,6 @@ $(document).ready(function() {
         });
     }
 
-    loadBudgetItems();
 
     $(document).on('submit', '#budget-form', function(event) {
         event.preventDefault();
@@ -94,6 +173,7 @@ $(document).ready(function() {
             totalMoney,
             spentMoney
         };
+        console.log(budgetItem);
 
         // Save the new budget item in localStorage
         const budgetItems = JSON.parse(localStorage.getItem('budgetItems')) || [];
@@ -105,25 +185,7 @@ $(document).ready(function() {
         loadBudgetItems();
     });
 
-    function initializeChart(canvasId, data) {
-        setTimeout(() => {
-            var canvas = document.getElementById(canvasId);
-            if (canvas) {
-                var ctx = canvas.getContext('2d');
-                var newChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        datasets: [{
-                            data: data,
-                            backgroundColor: ['#5673fb', '#d1d5f8'],
-                        }]
-                    },
-                });
-            } else {
-                console.error('Canvas element not found:', canvasId);
-            }
-        }, 0);
-    }
+    
 
     $('.addCard').click(function() {
         const overlay = $('<div class="overlay"></div>');
@@ -220,6 +282,13 @@ $(document).ready(function() {
         myChart.update(); // Update the chart to reflect new data
     }
 
+    function resetLocalStorage() {
+        localStorage.clear();
+        console.log("Local storage has been cleared.");
+    }
+    createSummaryChart();
+
+    // resetLocalStorage();
     //updateChartTimePeriod();
     
 });
