@@ -1,8 +1,58 @@
 $(document).ready(function() {
-    $("#navbar-placeholder").load("navbar.html");
-    
-    const cardContainer = document.querySelector('.cards-container');
-    const budgetsContainer = document.querySelector('.budgets-container');
+    $("#navbar-placeholder").load("navbar.html", function() {
+        $('.nav-item').removeClass('active');
+        var currentPage = window.location.pathname;
+        $('.nav-item a').each(function() {
+            var linkPage = $(this).attr('href');
+            
+            if(currentPage.endsWith(linkPage)) {
+                $(this).parent().addClass('active');
+            }
+        });
+    });
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+    type: 'bar', // The type of chart: bar, line, pie, etc.
+    data: {
+        labels: ['Su', 'Ma', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+        datasets: [{
+            label: 'Spendings',
+            data: [12000,5000,6000,20000], // Example data
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                // ... other colors for each bar
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                // ... other border colors for each bar
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    // Custom formatting for Y-axis labels
+                    callback: function(value, index, values) {
+                        return value / 1000 + 'k'; // Convert to 'k' for thousands
+                        }
+                    }
+                }
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Money Status',
+                position: 'top',
+                align: 'start' // Aligns the title to the left
+            }
+        },
+    });
+
 
     $('#addBudget').click(function() {
         const overlay = $('<div class="overlay"></div>');
@@ -159,89 +209,6 @@ $(document).ready(function() {
     });
 
     
-
-    var cty = document.getElementById('transportChart').getContext('2d');
-    var transportChart = new Chart(cty, {
-        type: 'pie',
-        data: {
-            datasets: [{
-                data: [1200,700],
-                backgroundColor: [
-                    '#5673fb','#d1d5f8'
-                ],
-            }]
-        },
-    });
-
-    var cta = document.getElementById('foodChart').getContext('2d');
-    var foodChart = new Chart(cta, {
-        type: 'pie',
-        data: {
-            datasets: [{
-                data: [3700,2100],
-                backgroundColor: [
-                    '#e45188','#fcd3e3'
-                ],
-            }]
-        },
-    });
-
-    var ctb = document.getElementById('sportChart').getContext('2d');
-    var sportChart = new Chart(ctb, {
-        type: 'pie',
-        data: {
-            datasets: [{
-                data: [350,950],
-                backgroundColor: [
-                    '#5a00de','#d4b8f2'
-                ],
-            }]
-        },
-    });
-
-
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-    type: 'bar', // The type of chart: bar, line, pie, etc.
-    data: {
-        labels: ['Su', 'Ma', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-        datasets: [{
-            label: 'Spendings',
-            data: [12000,5000,6000,20000], // Example data
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                // ... other colors for each bar
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                // ... other border colors for each bar
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    // Custom formatting for Y-axis labels
-                    callback: function(value, index, values) {
-                        return value / 1000 + 'k'; // Convert to 'k' for thousands
-                        }
-                    }
-                }
-            }
-        },
-        plugins: {
-            title: {
-                display: true,
-                text: 'Money Status',
-                position: 'top',
-                align: 'start' // Aligns the title to the left
-            }
-        },
-    });
-
     function updateChartTimePeriod() {
         var selectedTimePeriod = document.getElementById('timePeriodSelect').value;
     
