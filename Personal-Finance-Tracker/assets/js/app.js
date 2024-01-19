@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    loadBudgetItems();
     $("#navbar-placeholder").load("navbar.html", function() {
         $('.nav-item').removeClass('active');
         var currentPage = window.location.pathname;
@@ -54,66 +55,57 @@ $(document).ready(function() {
     });
 
 
-    $('#addBudget').click(function() {
-        const overlay = $('<div class="overlay"></div>');
-
-        const formContainer = $('<div class="form-container"></div>');
-        formContainer.html(`
-            <form>
-                <label for="canvasId">Canvas id:</label>
-                <input type="text" id="canvasId" name="canvasId"><br><br>
-                <label for="titleBudget">Title:</label>
-                <input type="text" id="titleBudget" name="title"><br><br>
-                <label for="total">Money Total:</label>
-                <input type="number" id="total" name="total"><br><br>
-                <label for="spent">Money Spent:</label>
-                <input type="number" id="spent" name="spent"><br><br>
-                <button class="submitData" type="submit">Submit</button>
-            </form>
-        `);
-        overlay.append(formContainer);
-
-        // Append overlay to body
-        $('body').append(overlay);
-
-        overlay.click(function(event) {
-            if ($(event.target).closest('.form-container').length === 0) {
-                overlay.remove();
-                }
-        });
-        
-        $(document).on('submit', 'form', function(event) {
-            event.preventDefault();
-            const canvasId = $('#canvasId').val();
-            const titleBudget = $('#titleBudget').val();
-            const totalMoney = $('#total').val();
-            const spentMoney = $('#spent').val();
-
+    function loadBudgetItems() {
+        const budgetItems = JSON.parse(localStorage.getItem('budgetItems')) || [];
+        budgetItems.forEach(item => {
             const createBudgetItem = $(`
-            <div class="budget-item">
+                <div class="budget-item">
                     <div class="flex-left">
-                            <canvas id="${canvasId}"></canvas>
-                            <div class="text-wrapper">
-                            <h3>${titleBudget}</h3>
-                            <p>${totalMoney-spentMoney} Left</p>
-                            </div>
+                        <canvas id="${item.canvasId}"></canvas>
+                        <div class="text-wrapper">
+                            <h3>${item.titleBudget}</h3>
+                            <p>${item.totalMoney - item.spentMoney} Left</p>
+                        </div>
                     </div>
-                        <div class="money-wrapper">
-                            <h3>${totalMoney}</h3>
-                            <p>${spentMoney} of ${totalMoney}</p>
+                    <div class="money-wrapper">
+                        <h3>${item.totalMoney}</h3>
+                        <p>${item.spentMoney} of ${item.totalMoney}</p>
                     </div>
-            </div>
-        `);
-
-        
-        $('.budgets-items').append(createBudgetItem);
-        initializeChart(canvasId, [spentMoney, totalMoney - spentMoney]);
-        $('.overlay').remove();
+                </div>
+            `);
+            $('.budgets-items').append(createBudgetItem);
+            initializeChart(item.canvasId, [item.spentMoney, item.totalMoney - item.spentMoney]);
         });
+    }
+
+    loadBudgetItems();
+
+    $(document).on('submit', '#budget-form', function(event) {
+        event.preventDefault();
+        
+        const canvasId = 'canvas' + Math.random().toString(36).substr(2, 9); // Generate unique ID
+        const titleBudget = $('#budget-category').val();
+        const totalMoney = parseInt($('#budget-amount').val(), 10);
+        const spentMoney = parseInt($('#spent-amount').val(), 10);
+
+        const budgetItem = {
+            canvasId,
+            titleBudget,
+            totalMoney,
+            spentMoney
+        };
+
+        // Save the new budget item in localStorage
+        const budgetItems = JSON.parse(localStorage.getItem('budgetItems')) || [];
+        budgetItems.push(budgetItem);
+        localStorage.setItem('budgetItems', JSON.stringify(budgetItems));
+
+        console.log("form submitted");
+        // Add the new budget item to the page
+        loadBudgetItems();
     });
 
     function initializeChart(canvasId, data) {
-        // Delay chart initialization to ensure canvas is in the DOM
         setTimeout(() => {
             var canvas = document.getElementById(canvasId);
             if (canvas) {
@@ -163,7 +155,6 @@ $(document).ready(function() {
         overlay.click(function(event) {
             if ($(event.target).closest('.form-container').length === 0) {
                 overlay.remove();
-         
          
            }
         });
