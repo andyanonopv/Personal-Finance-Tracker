@@ -373,3 +373,25 @@ body {
 .submit-btn:hover {
     background-color: #4cae4c; /* Darker green */
 }
+
+.total-balance-container {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px auto;
+}
+
+.spending-container-labels {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.spending-item,.total-spent {
+    display: flex;
+    justify-content: space-between;
+}
+
