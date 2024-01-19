@@ -179,6 +179,7 @@ body {
 .flex-left {
     display: flex;
     align-items: center;
+    justify-content: space-around;
     height: 100px;
     width: 100%;
     gap: 25px;
@@ -186,7 +187,6 @@ body {
 
 .budget-item {
     display: flex;
-    height: 100px;
     justify-content: space-between;
     padding: 15px;
 }
