@@ -1,0 +1,53 @@
+Investments Page
+Features:
+
+Portfolio Overview: Display the user's investment portfolio, including stocks, bonds, mutual funds, etc.
+Performance Charts: Graphs showing the performance of investments over time.
+Investment News: A feed of the latest news related to the user's investments.
+Add/Edit Investments: A form to add new investments or edit existing ones.
+Risk Assessment: Tools to help users assess the risk profile of their investments.
+Breakpoints:
+
+Desktop (above 1024px): Full portfolio details with interactive charts.
+Tablet (between 768px and 1024px): Simplified portfolio overview with key performance indicators.
+Mobile (below 768px): Scrollable list of investments and basic performance stats.
+Insurance Page
+Features:
+
+Policy Summary: A brief of all insurance policies (life, health, property, etc.).
+Payment Tracker: Keep track of premium payments and due dates.
+Claim Status: Update and track the status of any insurance claims.
+Document Storage: Securely upload and store policy documents.
+Contact Agent: Quick access to contact insurance agents or customer service.
+Breakpoints:
+
+Desktop (above 1024px): Detailed summaries with document previews.
+Tablet (between 768px and 1024px): List of policies with payment and claim statuses.
+Mobile (below 768px): Collapsible sections for each policy for easy navigation.
+Business Page
+Features:
+
+Revenue & Expense Tracker: Record and monitor business transactions.
+Invoicing: Create, send, and manage invoices.
+Cash Flow Analysis: Visual representations of cash inflows and outflows.
+Budgeting Tools: Set and manage budgets for different business areas.
+Tax Preparation: Organize tax-related documents and receipts.
+Breakpoints:
+
+Desktop (above 1024px): Comprehensive dashboard with graphs and tables.
+Tablet (between 768px and 1024px): Key metrics and quick actions for invoicing and expenses.
+Mobile (below 768px): Focus on transaction recording and invoice management features.
+Entertainment Page
+Features:
+
+Subscription Management: Track and manage entertainment subscriptions (streaming services, magazines, etc.).
+Expense Tracking: Monitor how much is being spent on entertainment.
+Event Calendar: Keep track of events, tickets purchased, and upcoming shows.
+Wishlist: List of future entertainment purchases or experiences.
+Recommendations: Based on spending habits, suggest new entertainment options.
+Breakpoints:
+
+Desktop (above 1024px): A full view of the calendar, expenses, and subscriptions.
+Tablet (between 768px and 1024px): A more focused view on upcoming events and subscription costs.
+Mobile (below 768px): Quick access to add expenses and view subscriptions.
+For each page, you should ensure that the user interface remains clean, uncluttered, and that the most important information is easily accessible. For smaller screens, prioritize the essential features and ensure that the interface remains navigable.
