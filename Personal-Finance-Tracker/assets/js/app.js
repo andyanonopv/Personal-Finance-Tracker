@@ -89,54 +89,33 @@ $(document).ready(function() {
         });
     }
     
-    
-
-    // var ctx = document.getElementById('myChart').getContext('2d');
-    // var myChart = new Chart(ctx, {
-    // type: 'bar', // The type of chart: bar, line, pie, etc.
-    // data: {
-    //     labels: ['Su', 'Ma', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-    //     datasets: [{
-    //         label: 'Spendings',
-    //         data: [12000,5000,6000,20000], // Example data
-    //         backgroundColor: [
-    //             'rgba(255, 99, 132, 0.2)',
-    //             // ... other colors for each bar
-    //         ],
-    //         borderColor: [
-    //             'rgba(255, 99, 132, 1)',
-    //             // ... other border colors for each bar
-    //         ],
-    //         borderWidth: 1
-    //     }]
-    // },
-    // options: {
-    //     scales: {
-    //         y: {
-    //             beginAtZero: true,
-    //             ticks: {
-    //                 // Custom formatting for Y-axis labels
-    //                 callback: function(value, index, values) {
-    //                     return value / 1000 + 'k'; // Convert to 'k' for thousands
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     },
-    //     plugins: {
-    //         title: {
-    //             display: true,
-    //             text: 'Money Status',
-    //             position: 'top',
-    //             align: 'start' // Aligns the title to the left
-    //         }
-    //     },
-    // });
-
+    function totalAmount() {
+        const budgetItems = JSON.parse(localStorage.getItem('budgetItems')) || [];
+        const totalMoneyHeading = document.getElementById('totalBalanceHeading');
+        const totalSpentBalance = document.getElementById('spentTotalBalance');
+        const spendingContainer = $('.spending-container-contain');
+        console.log(budgetItems);
+        let totalMoney = 0;
+        let spentMoney = 0;
+        budgetItems.forEach(item => {
+            totalMoney += item.totalMoney;
+            spentMoney += item.spentMoney;
+            const spendingItem = $(`
+            <div class="spending-item">
+                <h1>${item.titleBudget}</h1>
+                <h2>${item.spentMoney}</h2>
+            </div>
+            <hr>
+            `);
+            spendingContainer.append(spendingItem);
+        });
+        totalMoneyHeading.textContent = totalMoney;
+        totalSpentBalance.textContent = spentMoney;
+        console.log(totalMoney);
+    }
 
     function loadBudgetItems() {
         const budgetItems = JSON.parse(localStorage.getItem('budgetItems')) || [];
-        console.log(budgetItems);
         budgetItems.forEach(item => {
             const createBudgetItem = $(`
                 <div class="budget-item">
@@ -173,7 +152,7 @@ $(document).ready(function() {
             totalMoney,
             spentMoney
         };
-        console.log(budgetItem);
+        
 
         // Save the new budget item in localStorage
         const budgetItems = JSON.parse(localStorage.getItem('budgetItems')) || [];
@@ -286,7 +265,9 @@ $(document).ready(function() {
         localStorage.clear();
         console.log("Local storage has been cleared.");
     }
+    totalAmount();
     createSummaryChart();
+    
 
     // resetLocalStorage();
     //updateChartTimePeriod();
